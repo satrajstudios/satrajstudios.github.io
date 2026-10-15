@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Til: Event Countdown</title>
+<meta name="description" content="Til counts down to the days that matter, on iPhone, iPad, iPhone Duo and Apple Watch. Private by design.">
+<meta property="og:title" content="Til: Event Countdown">
+<meta property="og:description" content="Days until what matters. Countdowns for iPhone, iPad, iPhone Duo and Apple Watch.">
+<meta property="og:image" content="https://satrajstudios.github.io/til/img/shot-1.jpg">
+<link rel="icon" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F1EC;
+    --card: #FFFFFF;
+    --ink: #111111;
+    --ink-soft: #55514A;
+    --muted: #8A867E;
+    --hairline: #E2DED6;
+    --dot: #E3DFD7;
+    --accent: #E8402F;
+    --night: #0B0B0B;
+    --serif: "Instrument Serif", "New York", ui-serif, Georgia, serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0B0B0B;
+      --card: #161616;
+      --ink: #F3F1EC;
+      --ink-soft: #B5B0A7;
+      --muted: #8F8B84;
+      --hairline: #262626;
+      --dot: #1A1A1A;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--sans); }
+  a { color: var(--accent); }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+  /* Dot-matrix texture, echoing the app's countdown display. */
+  .texture {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, var(--dot) 1.4px, transparent 1.6px);
+    background-size: 14px 14px;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,0) 70%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,0) 70%);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font: 500 12px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--accent);
+  }
+  .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px rgba(232,64,47,.55); }
+  .eyebrow i + i { margin-left: -5px; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; margin: 0; }
+  em { font-style: italic; color: var(--accent); }
+
+  /* Header */
+  header { position: relative; z-index: 2; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font: 400 26px/1 var(--serif); }
+  .brand img { width: 34px; height: 34px; border-radius: 8px; }
+  nav a { color: var(--ink-soft); text-decoration: none; font: 400 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin-left: 22px; }
+  nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; padding-top: 40px; padding-bottom: 72px; }
+  .hero h1 { font-size: clamp(52px, 7.4vw, 96px); line-height: .95; margin-top: 22px; }
+  .lede { font-size: 19px; color: var(--ink-soft); max-width: 30em; margin: 24px 0 32px; }
+  .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 14px;
+    background: var(--ink); color: var(--paper); text-decoration: none; font: 500 15px/1.2 var(--sans);
+  }
+  .badge svg { width: 22px; height: 22px; fill: currentColor; }
+  .badge small { display: block; font-size: 11px; opacity: .7; font-weight: 400; }
+  .note { font: 400 13px/1.4 var(--mono); color: var(--muted); }
+  .phones { position: relative; height: 640px; }
+  .phone {
+    position: absolute; width: 270px; border-radius: 34px; overflow: hidden;
+    box-shadow: 0 30px 60px rgba(17,17,17,.22), 0 6px 14px rgba(17,17,17,.12);
+  }
+  .phone.one { left: 6%; top: 10px; transform: rotate(-4deg); z-index: 2; }
+  .phone.two { right: 4%; top: 70px; transform: rotate(5deg); }
+  .glow {
+    position: absolute; width: 640px; height: 640px; right: -120px; top: -40px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,64,47,.14), rgba(232,64,47,0) 70%); filter: blur(30px); pointer-events: none;
+  }
+
+  /* Counter strip */
+  .strip { background: var(--night); color: #F3F1EC; }
+  .strip .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: 40px 16px; }
+  .strip h2 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.05; }
+  .matrix { display: flex; gap: 22px; font: 500 clamp(38px, 5vw, 60px)/1 var(--mono); letter-spacing: .04em; }
+  .matrix div { text-align: center; }
+  .matrix span { display: block; margin-top: 8px; font-size: 11px; letter-spacing: .2em; color: #8F8B84; }
+  .matrix b { font-weight: 500; color: var(--accent); }
+
+  /* Features */
+  section { padding: 88px 0; }
+  .section-head { max-width: 640px; margin-bottom: 44px; }
+  .section-head h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin-top: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: var(--card); border: 1px solid var(--hairline); border-radius: 22px; padding: 26px; }
+  .card h3 { font-size: 26px; line-height: 1.1; margin: 14px 0 8px; }
+  .card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+  .card .k { font: 500 11px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+
+  /* Gallery */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .gallery img { border-radius: 22px; box-shadow: 0 14px 30px rgba(17,17,17,.12); }
+  .duo { margin-top: 18px; border-radius: 22px; overflow: hidden; box-shadow: 0 14px 30px rgba(17,17,17,.12); }
+
+  /* Privacy */
+  .privacy { border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .privacy .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .privacy h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin-top: 18px; }
+  .privacy ul { list-style: none; padding: 0; margin: 0; }
+  .privacy li { padding: 14px 0; border-bottom: 1px solid var(--hairline); color: var(--ink-soft); }
+  .privacy li:last-child { border-bottom: 0; }
+  .privacy li b { color: var(--ink); font-weight: 600; }
+
+  footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  footer a { color: var(--ink-soft); text-decoration: none; margin-left: 18px; }
+  footer a:first-child { margin-left: 0; }
+
+  @media (max-width: 900px) {
+    .hero .wrap, .privacy .wrap { grid-template-columns: 1fr; }
+    .phones { height: 520px; }
+    .phone { width: 220px; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    nav a:not(:last-child) { display: none; }
+    .phones { height: 430px; }
+    .phone { width: 180px; border-radius: 24px; }
+    .grid { grid-template-columns: 1fr; }
+    section { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="img/icon.png" alt="">Til</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#privacy">Privacy</a>
+      <a href="support/">Support</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="texture"></div>
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i><i></i>Event countdown</span>
+      <h1>Days until<br><em>what matters.</em></h1>
+      <p class="lede">Birthdays, trips, launches, anniversaries. Pick what you're waiting for and Til counts down to it, on your iPhone, iPad, iPhone Duo and Apple Watch.</p>
+      <div class="cta">
+        <span class="badge" aria-label="Coming soon to the App Store">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.17-1.54 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.24 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.41 1.2-2.47-.03-.01-2.27-.87-2.3-3.45zM14.2 6.12c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg>
+          <span><small>Coming soon to the</small>App Store</span>
+        </span>
+        <span class="note">Free · iPhone, iPad &amp; Apple Watch</span>
+      </div>
+    </div>
+    <div class="phones" aria-hidden="true">
+      <img class="phone one" src="img/shot-1.jpg" alt="">
+      <img class="phone two" src="img/shot-2.jpg" alt="">
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap">
+    <h2>Every big day,<br><em>at a glance.</em></h2>
+    <div class="matrix" aria-label="12 days, 3 hours, 25 minutes">
+      <div>12<span>DAYS</span></div><b>:</b>
+      <div>03<span>HRS</span></div><b>:</b>
+      <div>25<span>MIN</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i></i><i></i>What it does</span>
+      <h2>Made for the wait,<br><em>and the day itself.</em></h2>
+    </div>
+    <div class="grid">
+      <div class="card"><span class="k">Calendar</span><h3>Bring in your calendar</h3><p>Choose events you already have and Til counts down to them. It only keeps the ones you pick, and never changes your calendar.</p></div>
+      <div class="card"><span class="k">Your own</span><h3>Or make your own</h3><p>Name it, pick a date, set a time or make it all day, and file it as a birthday, holiday, trip or anniversary.</p></div>
+      <div class="card"><span class="k">Widgets</span><h3>Home &amp; Lock Screen</h3><p>Small, medium and large widgets, Lock Screen widgets, and a glowing dot-matrix day counter.</p></div>
+      <div class="card"><span class="k">Live</span><h3>Live countdown</h3><p>When the day is close, follow it on your Lock Screen and in the Dynamic Island, down to the second.</p></div>
+      <div class="card"><span class="k">Reminders</span><h3>Gentle nudges</h3><p>On the day, the day before, two days before or a week ahead. Turn on as many as you like.</p></div>
+      <div class="card"><span class="k">Everywhere</span><h3>Wrist, iPad &amp; Duo</h3><p>An Apple Watch app with complications, side-by-side views on iPad and iPhone Duo, and iCloud sync between your devices.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="gallery">
+      <img src="img/shot-1.jpg" alt="Til's list, with the next countdown at the top" loading="lazy">
+      <img src="img/shot-2.jpg" alt="A countdown to a trip, with the days left on a dot-matrix display" loading="lazy">
+      <img src="img/shot-3.jpg" alt="Til widgets on the iPhone Home Screen" loading="lazy">
+      <img src="img/shot-4.jpg" alt="Til in the dark theme" loading="lazy">
+    </div>
+    <img class="duo" src="img/duo.jpg" alt="Til on a half-open iPhone Duo, with the list and a countdown side by side" loading="lazy">
+  </div>
+</section>
+
+<section id="privacy" class="privacy">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i><i></i>Private by design</span>
+      <h2>Your countdowns<br><em>stay yours.</em></h2>
+    </div>
+    <ul>
+      <li><b>No accounts, no ads, no tracking.</b> There's nothing to sign up for.</li>
+      <li><b>On your devices and your iCloud.</b> Sync uses your private iCloud, which only you can see.</li>
+      <li><b>Data Not Collected.</b> Read the <a href="privacy/">privacy policy</a>.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Satraj Studios</span>
+    <span><a href="support/">Support</a><a href="privacy/">Privacy Policy</a><a href="mailto:satrajstudios@gmail.com">Contact</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

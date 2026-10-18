@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SFSD School App</title>
+<meta name="description" content="Homework, attendance and messages for the Sikh Foundation San Diego Punjabi School, on iPhone, iPad and Android.">
+<meta property="og:title" content="SFSD School App">
+<meta property="og:description" content="The Sikh Foundation San Diego Punjabi School, in your pocket: homework, attendance and messages for students, families, teachers and admins.">
+<meta property="og:image" content="https://satrajstudios.github.io/sfsdschool/img/shot-signin.jpg">
+<link rel="icon" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5F1E8;
+    --card: #FFFFFF;
+    --ink: #111827;
+    --ink-soft: #4B5160;
+    --muted: #868B96;
+    --hairline: #E3DDD0;
+    --dot: #E6DFD0;
+    --accent: #B86E0E;
+    --gold: #F2A93B;
+    --night: #0E1A33;
+    --serif: "Instrument Serif", "New York", ui-serif, Georgia, serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0A1122;
+      --card: #121C33;
+      --ink: #F3EFE6;
+      --ink-soft: #B9BFCC;
+      --muted: #8A91A0;
+      --hairline: #1E2A45;
+      --dot: #15203A;
+      --accent: #F2B34B;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--sans); }
+  a { color: var(--accent); }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+  /* Star-field texture, echoing the app icon's night sky. */
+  .texture {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, var(--dot) 1.4px, transparent 1.6px);
+    background-size: 18px 18px;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,0) 70%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,0) 70%);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font: 500 12px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--accent);
+  }
+  .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px rgba(242,169,59,.6); }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; margin: 0; }
+  em { font-style: italic; color: var(--accent); }
+
+  /* Header */
+  header { position: relative; z-index: 2; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font: 400 26px/1 var(--serif); }
+  .brand img { width: 34px; height: 34px; border-radius: 8px; }
+  nav a { color: var(--ink-soft); text-decoration: none; font: 400 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin-left: 22px; }
+  nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding-top: 40px; padding-bottom: 72px; }
+  .hero h1 { font-size: clamp(52px, 7.4vw, 96px); line-height: .95; margin-top: 22px; }
+  .lede { font-size: 19px; color: var(--ink-soft); max-width: 30em; margin: 24px 0 32px; }
+  .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 14px;
+    background: var(--ink); color: var(--paper); text-decoration: none; font: 500 15px/1.2 var(--sans);
+  }
+  .badge svg { width: 22px; height: 22px; fill: currentColor; }
+  .badge small { display: block; font-size: 11px; opacity: .7; font-weight: 400; }
+  .note { font: 400 13px/1.4 var(--mono); color: var(--muted); }
+  .phones { position: relative; height: 640px; }
+  .phone {
+    position: absolute; left: 50%; top: 10px; width: 290px; margin-left: -145px; border-radius: 34px; overflow: hidden;
+    transform: rotate(-3deg);
+    box-shadow: 0 30px 60px rgba(14,26,51,.28), 0 6px 14px rgba(14,26,51,.14);
+  }
+  .glow {
+    position: absolute; width: 640px; height: 640px; right: -120px; top: -40px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(242,169,59,.18), rgba(242,169,59,0) 70%); filter: blur(30px); pointer-events: none;
+  }
+
+  /* Welcome strip */
+  .strip { background: var(--night); color: #F3EFE6; }
+  .strip .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding: 40px 16px; }
+  .strip h2 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.05; }
+  .strip h2 em { color: var(--gold); }
+  .roles { display: flex; flex-wrap: wrap; gap: 10px; }
+  .roles span { font: 500 12px/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(242,169,59,.4); border-radius: 999px; padding: 10px 16px; }
+
+  /* Features */
+  section { padding: 88px 0; }
+  .section-head { max-width: 640px; margin-bottom: 44px; }
+  .section-head h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin-top: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: var(--card); border: 1px solid var(--hairline); border-radius: 22px; padding: 26px; }
+  .card h3 { font-size: 26px; line-height: 1.1; margin: 14px 0 8px; }
+  .card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+  .card .k { font: 500 11px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+
+  /* Gallery */
+  .duo { border-radius: 22px; overflow: hidden; box-shadow: 0 14px 30px rgba(14,26,51,.14); }
+
+  /* Privacy */
+  .privacy { border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .privacy .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .privacy h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin-top: 18px; }
+  .privacy ul { list-style: none; padding: 0; margin: 0; }
+  .privacy li { padding: 14px 0; border-bottom: 1px solid var(--hairline); color: var(--ink-soft); }
+  .privacy li:last-child { border-bottom: 0; }
+  .privacy li b { color: var(--ink); font-weight: 600; }
+
+  footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  footer a { color: var(--ink-soft); text-decoration: none; margin-left: 18px; }
+  footer a:first-child { margin-left: 0; }
+
+  @media (max-width: 900px) {
+    .hero .wrap, .privacy .wrap { grid-template-columns: 1fr; }
+    .phones { height: 560px; }
+    .phone { width: 250px; margin-left: -125px; }
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    nav a:not(:last-child) { display: none; }
+    .phones { height: 450px; }
+    .phone { width: 200px; margin-left: -100px; border-radius: 26px; }
+    .grid { grid-template-columns: 1fr; }
+    section { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="img/icon.png" alt="">SFSD School</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#privacy">Privacy</a>
+      <a href="support/">Support</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="texture"></div>
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i>SFSD Punjabi School</span>
+      <h1>Your school,<br><em>in your pocket.</em></h1>
+      <p class="lede">Homework, attendance and messages for the Sikh Foundation San Diego Punjabi School. One app for students, families, teachers and admins, on iPhone, iPad and Android.</p>
+      <div class="cta">
+        <span class="badge" aria-label="Coming soon to the App Store">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.17-1.54 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.24 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.41 1.2-2.47-.03-.01-2.27-.87-2.3-3.45zM14.2 6.12c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg>
+          <span><small>Coming soon to the</small>App Store</span>
+        </span>
+        <span class="badge" aria-label="Coming soon to Google Play">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.2c-.3.3-.4.7-.4 1.2v17.2c0 .5.1.9.4 1.2l9.5-9.8L3.6 2.2zm10.6 10.9 2.7 2.8-11.8 6.8c-.3.2-.7.2-1 .1l10.1-9.7zm0-2.2L4.1 1.2c.3-.1.7-.1 1 .1l11.8 6.8-2.7 2.8zm3.9-1.8 3 1.7c.9.5.9 1.9 0 2.4l-3 1.7-3-3 3-2.8z"/></svg>
+          <span><small>Coming soon to</small>Google Play</span>
+        </span>
+      </div>
+      <p class="note" style="margin-top:16px">Free · For SFSD Punjabi School students, families and staff</p>
+    </div>
+    <div class="phones" aria-hidden="true">
+      <img class="phone" src="img/shot-signin.jpg" alt="">
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap">
+    <h2>One sign-in,<br><em>the whole school year.</em></h2>
+    <div class="roles"><span>Students</span><span>Families</span><span>Teachers</span><span>Admins</span></div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i></i>What it does</span>
+      <h2>Everything from class,<br><em>wherever you are.</em></h2>
+    </div>
+    <div class="grid">
+      <div class="card"><span class="k">Students</span><h3>Homework, handed in</h3><p>See what's due, then submit by photographing your pages or attaching a file. Grades and teacher feedback come back to the same place.</p></div>
+      <div class="card"><span class="k">Families</span><h3>Every child, one login</h3><p>Families who share an email can switch between their children to check homework, progress and attendance.</p></div>
+      <div class="card"><span class="k">Teachers</span><h3>Set, mark, reply</h3><p>Post homework for your grade, mark submissions with written notes on the page, and answer students' questions.</p></div>
+      <div class="card"><span class="k">Attendance</span><h3>Registers &amp; check-in</h3><p>Take the register on a phone or tablet, or run the check-in station that scans students' QR badges at the door.</p></div>
+      <div class="card"><span class="k">School news</span><h3>Announcements &amp; messages</h3><p>School announcements on the home screen, holidays ahead, and messages between families and staff.</p></div>
+      <div class="card"><span class="k">Anywhere</span><h3>Phone, tablet, offline</h3><p>Layouts made for iPhone, iPad and Android tablets. Screens you've opened recently still open with no connection.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <img class="duo" src="img/duo.jpg" alt="The SFSD School App on a half-open iPhone Duo, with the menu on one side and a student's check-in QR code on the other" loading="lazy">
+  </div>
+</section>
+
+<section id="privacy" class="privacy">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i>Private by design</span>
+      <h2>The school's data<br><em>stays with the school.</em></h2>
+    </div>
+    <ul>
+      <li><b>Talks only to the school's server.</b> Nothing you see or send goes to anyone else.</li>
+      <li><b>No ads, no analytics, no tracking.</b> The app has none built in.</li>
+      <li><b>Signed out means cleared.</b> Signing out removes your sign-in and saved screens from the device. Read the <a href="privacy/">privacy policy</a>.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Satraj Studios, for the Sikh Foundation San Diego Punjabi School</span>
+    <span><a href="support/">Support</a><a href="privacy/">Privacy Policy</a><a href="mailto:satrajstudios@gmail.com">Contact</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

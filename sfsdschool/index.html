@@ -114,6 +114,15 @@
   .card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
   .card .k { font: 500 11px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
 
+  /* Beta */
+  .grid.two { grid-template-columns: repeat(2, 1fr); }
+  .card p + p { margin-top: 14px; }
+  .card b { color: var(--ink); font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .button { display: inline-block; padding: 11px 18px; border-radius: 12px; background: var(--ink); color: var(--paper); text-decoration: none; font: 500 15px/1.2 var(--sans); }
+  .button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--hairline); }
+  .button:hover { opacity: .88; }
+
   /* Gallery */
   .duo { border-radius: 22px; overflow: hidden; box-shadow: 0 14px 30px rgba(14,26,51,.14); }
 
@@ -141,7 +150,7 @@
     nav a:not(:last-child) { display: none; }
     .phones { height: 450px; }
     .phone { width: 200px; margin-left: -100px; border-radius: 26px; }
-    .grid { grid-template-columns: 1fr; }
+    .grid, .grid.two { grid-template-columns: 1fr; }
     section { padding: 64px 0; }
   }
 </style>
@@ -153,6 +162,7 @@
     <a class="brand" href="./"><img src="img/icon.png" alt="">SFSD School</a>
     <nav>
       <a href="#features">Features</a>
+      <a href="#beta">Beta</a>
       <a href="#privacy">Privacy</a>
       <a href="support/">Support</a>
     </nav>
@@ -168,16 +178,16 @@
       <h1>Your school,<br><em>in your pocket.</em></h1>
       <p class="lede">Homework, attendance and messages for the Sikh Foundation San Diego Punjabi School. One app for students, families, teachers and admins, on iPhone, iPad and Android.</p>
       <div class="cta">
-        <span class="badge" aria-label="Coming soon to the App Store">
+        <a class="badge" href="#beta-ios">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.17-1.54 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.24 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.41 1.2-2.47-.03-.01-2.27-.87-2.3-3.45zM14.2 6.12c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg>
-          <span><small>Coming soon to the</small>App Store</span>
-        </span>
-        <span class="badge" aria-label="Coming soon to Google Play">
+          <span><small>Join the beta on</small>TestFlight</span>
+        </a>
+        <a class="badge" href="#beta-android">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.2c-.3.3-.4.7-.4 1.2v17.2c0 .5.1.9.4 1.2l9.5-9.8L3.6 2.2zm10.6 10.9 2.7 2.8-11.8 6.8c-.3.2-.7.2-1 .1l10.1-9.7zm0-2.2L4.1 1.2c.3-.1.7-.1 1 .1l11.8 6.8-2.7 2.8zm3.9-1.8 3 1.7c.9.5.9 1.9 0 2.4l-3 1.7-3-3 3-2.8z"/></svg>
-          <span><small>Coming soon to</small>Google Play</span>
-        </span>
+          <span><small>Join the beta on</small>Google Play</span>
+        </a>
       </div>
-      <p class="note" style="margin-top:16px">Free · For SFSD Punjabi School students, families and staff</p>
+      <p class="note" style="margin-top:16px">Free · Beta for invited SFSD Punjabi School families and staff</p>
     </div>
     <div class="phones" aria-hidden="true">
       <img class="phone" src="img/shot-signin.jpg" alt="">
@@ -206,6 +216,36 @@
       <div class="card"><span class="k">School news</span><h3>Announcements &amp; messages</h3><p>School announcements on the home screen, holidays ahead, and messages between families and staff.</p></div>
       <div class="card"><span class="k">Anywhere</span><h3>Phone, tablet, offline</h3><p>Layouts made for iPhone, iPad and Android tablets. Screens you've opened recently still open with no connection.</p></div>
     </div>
+  </div>
+</section>
+
+<section id="beta" class="beta">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i></i>Join the beta</span>
+      <h2>Try it before<br><em>everyone else.</em></h2>
+    </div>
+    <div class="grid two">
+      <div class="card" id="beta-ios">
+        <span class="k">iPhone &amp; iPad</span>
+        <h3>TestFlight</h3>
+        <p>Testers are invited by email. Install Apple's free TestFlight app, then open the invite email on your iPhone or iPad and tap <b>View in TestFlight</b> to install the SFSD School App.</p>
+        <p class="actions">
+          <a class="button" href="https://apps.apple.com/app/testflight/id899247664">Get TestFlight</a>
+          <a class="button ghost" href="mailto:satrajstudios@gmail.com?subject=SFSD%20School%20App%20beta%20(iPhone)">Ask for an invite</a>
+        </p>
+      </div>
+      <div class="card" id="beta-android">
+        <span class="k">Android</span>
+        <h3>Google Play testing</h3>
+        <p>Open the link below while signed in to Google Play with the account you were invited with, tap <b>Become a tester</b>, then install the app from Google Play.</p>
+        <p class="actions">
+          <a class="button" href="https://play.google.com/apps/internaltest/4701714260468527790">Join on Google Play</a>
+          <a class="button ghost" href="mailto:satrajstudios@gmail.com?subject=SFSD%20School%20App%20beta%20(Android)">Ask for an invite</a>
+        </p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:20px">The beta is for invited families and staff. Sign in with your school account, the same one you use on the school's website.</p>
   </div>
 </section>
 

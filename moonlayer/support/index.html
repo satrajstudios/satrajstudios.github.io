@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moon Layer Support</title>
+<meta name="description" content="Help with the Moon Layer skincare routine app.">
+<style>
+  :root {
+    --paper: #FBF7F2;
+    --ink: #2B2433;
+    --ink-soft: #625A6C;
+    --muted: #7a746b;
+    --hairline: #E7DED4;
+    --accent: #A84B24;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #13121C;
+      --ink: #F3EEF7;
+      --ink-soft: #B9B1C4;
+      --muted: #8f887d;
+      --hairline: #34324A;
+      --accent: #F2A97E;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
+  .eyebrow {
+    font: 12px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font: 400 40px/1.1 "New York", ui-serif, Georgia, "Times New Roman", serif;
+    margin: 0 0 8px;
+  }
+  .updated { color: var(--muted); margin: 0 0 32px; font-size: 15px; }
+  .summary {
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding: 20px 0;
+    margin: 0 0 32px;
+    font-size: 19px;
+  }
+  h2 {
+    font: 400 24px/1.25 "New York", ui-serif, Georgia, "Times New Roman", serif;
+    margin: 36px 0 8px;
+  }
+  p, li { color: var(--ink-soft); }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  strong { color: var(--ink); font-weight: 600; }
+  a { color: var(--accent); }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Moon Layer</p>
+  <h1>Support</h1>
+  <p class="updated">Your skincare, one layer at a time, on iPhone and iPad.</p>
+
+  <p class="summary">Need a hand or found a bug? Email <a href="mailto:satrajstudios@gmail.com?subject=Moon%20Layer">satrajstudios@gmail.com</a> and say which device and iOS version you're using. Replies usually come within a couple of days.</p>
+
+  <h2>How do I add a product?</h2>
+  <p>Open Routine and tap +. Scan the barcode, search by name, or type it in yourself. Pick morning, night or both, then set how often you use it.</p>
+
+  <h2>What does "Clash" mean?</h2>
+  <p>Moon Layer checks your routine over the coming year and flags actives that are often better kept apart, like a retinoid and an exfoliating acid on the same night, or a morning routine with no sunscreen. It's general guidance, not medical advice; ask a dermatologist about your skin.</p>
+
+  <h2>A barcode isn't found</h2>
+  <p>Lookups use the public Open Beauty Facts and UPCitemdb databases, which don't have every product. Try Search by name, or add the product yourself and photograph its ingredient list so Moon Layer can read it.</p>
+
+  <h2>I'm not getting reminders</h2>
+  <p>Turn reminders on in Moon Layer under More &rsaquo; Settings, then check that notifications are allowed in Settings &rsaquo; Notifications &rsaquo; Moon Layer and that a Focus isn't silencing them.</p>
+
+  <h2>How do I move my routine to a new phone?</h2>
+  <p>In Moon Layer, open More &rsaquo; Settings and tap Export a backup, and save the file to Files or iCloud Drive. On the new phone, tap Restore from a backup and pick that file. Your routine, history and photos come with it.</p>
+
+  <h2>Privacy</h2>
+  <p>Moon Layer doesn't collect any data about you. Read the full <a href="../privacy/">privacy policy</a>.</p>
+
+  <footer>Moon Layer is made by Satraj Studios · <a href="../privacy/">Privacy Policy</a></footer>
+</main>
+</body>
+</html>

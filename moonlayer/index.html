@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moon Layer: Skincare Routine</title>
+<meta name="description" content="Your morning and night skincare routine, in the right order. Private by design.">
+<link rel="icon" href="img/icon.png">
+<style>
+  :root {
+    --paper: #FBF7F2;
+    --ink: #2B2433;
+    --ink-soft: #625A6C;
+    --muted: #7a746b;
+    --hairline: #E7DED4;
+    --accent: #A84B24;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #13121C;
+      --ink: #F3EEF7;
+      --ink-soft: #B9B1C4;
+      --muted: #8f887d;
+      --hairline: #34324A;
+      --accent: #F2A97E;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
+  .eyebrow {
+    font: 12px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font: 400 40px/1.1 "New York", ui-serif, Georgia, "Times New Roman", serif;
+    margin: 0 0 8px;
+  }
+  .updated { color: var(--muted); margin: 0 0 32px; font-size: 15px; }
+  .summary {
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding: 20px 0;
+    margin: 0 0 32px;
+    font-size: 19px;
+  }
+  h2 {
+    font: 400 24px/1.25 "New York", ui-serif, Georgia, "Times New Roman", serif;
+    margin: 36px 0 8px;
+  }
+  p, li { color: var(--ink-soft); }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  strong { color: var(--ink); font-weight: 600; }
+  a { color: var(--accent); }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <img src="img/icon.png" alt="" width="96" height="96" style="border-radius:22px;margin-bottom:20px">
+  <p class="eyebrow">Skincare routine</p>
+  <h1>Moon Layer</h1>
+  <p class="updated">Your skincare, one layer at a time.</p>
+  <p class="summary">Your morning and night routine, in the right order. Scan products, catch actives that clash, and tick off each step. No account, and everything stays on your device. Coming soon to the App Store for iPhone and iPad.</p>
+  <div style="display:flex;gap:16px;margin:0 0 32px">
+    <img src="img/shot-1.jpg" alt="Moon Layer's night routine" style="width:48%;border-radius:24px;border:1px solid var(--hairline)">
+    <img src="img/shot-2.jpg" alt="Moon Layer's routine with ingredient clash badges" style="width:48%;border-radius:24px;border:1px solid var(--hairline)">
+  </div>
+  <h2>What it does</h2>
+  <ul>
+    <li><strong>Morning and night, in order.</strong> See exactly what to put on now, and tick each step off.</li>
+    <li><strong>Every step on its own schedule.</strong> Daily, chosen weekdays, monthly, or just once.</li>
+    <li><strong>Spot actives that clash.</strong> Retinoids with acids, vitamin C with benzoyl peroxide, and more.</li>
+    <li><strong>Scan it, see what's inside.</strong> Barcode lookups with a simple ingredient score.</li>
+    <li><strong>History and reminders.</strong> See what you did, and get a nudge that lists tonight's products.</li>
+  </ul>
+  <footer>Moon Layer is made by Satraj Studios · <a href="privacy/">Privacy Policy</a> · <a href="support/">Support</a></footer>
+</main>
+</body>
+</html>

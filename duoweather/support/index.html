@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DuoWeather Support</title>
+<meta name="description" content="Help with the DuoWeather app.">
+<link rel="icon" href="../img/icon.png">
+<style>
+  :root {
+    --paper: #F3F6FB;
+    --ink: #141B41;
+    --ink-soft: #4A5272;
+    --muted: #666E8C;
+    --hairline: #DBE1EE;
+    --accent: #9A5208;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0E1330;
+      --ink: #F1F4FF;
+      --ink-soft: #B6BEDA;
+      --muted: #8D96B5;
+      --hairline: #2A3257;
+      --accent: #FFBD61;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
+  .eyebrow {
+    font: 12px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font: 400 40px/1.1 "New York", ui-serif, Georgia, "Times New Roman", serif;
+    margin: 0 0 8px;
+  }
+  .updated { color: var(--muted); margin: 0 0 32px; font-size: 15px; }
+  .summary {
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding: 20px 0;
+    margin: 0 0 32px;
+    font-size: 19px;
+  }
+  h2 {
+    font: 400 24px/1.25 "New York", ui-serif, Georgia, "Times New Roman", serif;
+    margin: 36px 0 8px;
+  }
+  p, li { color: var(--ink-soft); }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  strong { color: var(--ink); font-weight: 600; }
+  a { color: var(--accent); }
+  img { max-width: 100%; height: auto; display: block; }
+  .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 16px; }
+  .shots img, .wide { border-radius: 18px; border: 1px solid var(--hairline); }
+  .wide { margin: 0 0 32px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">DuoWeather</p>
+  <h1>Support</h1>
+  <p class="updated">Fahrenheit and Celsius, side by side, on iPhone, iPad and Apple Watch.</p>
+
+  <p class="summary">Need a hand or found a bug? Email <a href="mailto:satrajstudios@gmail.com?subject=DuoWeather">satrajstudios@gmail.com</a> and say which device and iOS version you're using. Replies usually come within a couple of days.</p>
+
+  <h2>How do I add a city?</h2>
+  <p>Open the city list and tap Search for a city. Type a name, pick a result, then tap Add.</p>
+
+  <h2>How do I remove or reorder cities?</h2>
+  <p>Swipe left on a city to delete it. Press and hold a saved city, then drag it to a new position. My Location always stays at the top.</p>
+
+  <h2>Can I show °C first?</h2>
+  <p>Yes. In the city list, tap the &hellip; button and choose °C first or °F first. Both scales always stay on screen.</p>
+
+  <h2>Why doesn't it show my location?</h2>
+  <p>Go to Settings &rsaquo; Privacy &amp; Security &rsaquo; Location Services &rsaquo; DuoWeather and choose While Using the App. You can also search for your city instead.</p>
+
+  <h2>Why don't I see next-hour rain or weather alerts?</h2>
+  <p>These come from Apple Weather and aren't offered in every region. DuoWeather shows them wherever they're available.</p>
+
+  <h2>How do I add a widget?</h2>
+  <p>Touch and hold your Home Screen or Lock Screen, tap Edit, then add a widget and choose DuoWeather.</p>
+
+  <h2>My cities aren't syncing</h2>
+  <p>Make sure you're signed in to the same iCloud account on each device and that iCloud is turned on. New changes can take a little while to arrive.</p>
+
+  <h2>The forecast looks out of date</h2>
+  <p>Pull down on a forecast to refresh it, or tap the &hellip; button in the city list and choose Refresh All.</p>
+
+  <h2>Privacy</h2>
+  <p>DuoWeather doesn't collect any data about you. Read the full <a href="../privacy/">privacy policy</a>.</p>
+
+  <footer>DuoWeather is made by Satraj Studios · <a href="../">About DuoWeather</a> · <a href="../privacy/">Privacy Policy</a></footer>
+</main>
+</body>
+</html>

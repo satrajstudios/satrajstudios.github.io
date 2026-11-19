@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DuoWeather: Weather in °F and °C</title>
+<meta name="description" content="Every temperature in Fahrenheit and Celsius at once, with forecasts, alerts, moon phases, widgets and an Apple Watch app.">
+<link rel="icon" href="img/icon.png">
+<style>
+  :root {
+    --paper: #F3F6FB;
+    --ink: #141B41;
+    --ink-soft: #4A5272;
+    --muted: #666E8C;
+    --hairline: #DBE1EE;
+    --accent: #9A5208;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0E1330;
+      --ink: #F1F4FF;
+      --ink-soft: #B6BEDA;
+      --muted: #8D96B5;
+      --hairline: #2A3257;
+      --accent: #FFBD61;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
+  .eyebrow {
+    font: 12px/1 ui-monospace, "SF Mono", Menlo, monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font: 400 40px/1.1 "New York", ui-serif, Georgia, "Times New Roman", serif;
+    margin: 0 0 8px;
+  }
+  .updated { color: var(--muted); margin: 0 0 32px; font-size: 15px; }
+  .summary {
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding: 20px 0;
+    margin: 0 0 32px;
+    font-size: 19px;
+  }
+  h2 {
+    font: 400 24px/1.25 "New York", ui-serif, Georgia, "Times New Roman", serif;
+    margin: 36px 0 8px;
+  }
+  p, li { color: var(--ink-soft); }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  strong { color: var(--ink); font-weight: 600; }
+  a { color: var(--accent); }
+  img { max-width: 100%; height: auto; display: block; }
+  .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 16px; }
+  .shots img, .wide { border-radius: 18px; border: 1px solid var(--hairline); }
+  .wide { margin: 0 0 32px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <img src="img/icon.png" alt="" width="96" height="96" style="border-radius:22px;margin-bottom:20px">
+  <p class="eyebrow">Weather in two scales</p>
+  <h1>DuoWeather</h1>
+  <p class="updated">Fahrenheit and Celsius, side by side.</p>
+  <p class="summary">Every temperature in °F and °C at once, so you never have to convert in your head. Hourly and 10-day forecasts, weather alerts, moon phases, widgets and an Apple Watch app. Coming soon to the App Store for iPhone, iPad and Apple Watch.</p>
+  <div class="shots">
+    <img src="img/shot-1.jpg" alt="DuoWeather showing Tokyo at 63°F and 17°C on the dual arc gauge" width="640" height="1391">
+    <img src="img/shot-2.jpg" alt="The Sun and moon screen, with a drawn moon phase and date for each day" width="640" height="1391">
+    <img src="img/shot-3.jpg" alt="The city list comparing four cities on one temperature scale" width="640" height="1391">
+  </div>
+  <h2>What it does</h2>
+  <ul>
+    <li><strong>Both scales, everywhere.</strong> The gauge, forecasts and widgets all show °F and °C together. Choose which comes first.</li>
+    <li><strong>Forecasts you can read fast.</strong> Next-hour rain, the next 24 hours and a 10-day outlook.</li>
+    <li><strong>Slide to convert.</strong> A built-in ruler and quick maths help you learn the other scale.</li>
+    <li><strong>Compare your cities.</strong> Every city sits on one shared temperature scale, and your list follows you through iCloud.</li>
+    <li><strong>Sun and moon.</strong> Sunrise, sunset, daylight and a moon drawn to match each day's phase.</li>
+    <li><strong>Weather alerts.</strong> Severe weather warnings where they're available.</li>
+    <li><strong>Widgets and Apple Watch.</strong> Home Screen and Lock Screen widgets, a Watch app and complications.</li>
+  </ul>
+  <h2>Made for bigger screens</h2>
+  <p>On iPhone Duo and iPad, DuoWeather opens up into a city list beside a full forecast.</p>
+  <img class="wide" src="img/duo.jpg" alt="DuoWeather unfolded on iPhone Duo, with the city list beside the San Diego forecast" width="1280" height="900">
+  <footer>DuoWeather is made by Satraj Studios · <a href="privacy/">Privacy Policy</a> · <a href="support/">Support</a></footer>
+</main>
+</body>
+</html>

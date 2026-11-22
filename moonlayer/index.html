@@ -4,87 +4,295 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Moon Layer: Skincare Routine</title>
-<meta name="description" content="Your morning and night skincare routine, in the right order. Private by design.">
+<meta name="description" content="Your morning and night skincare routine, in the right order. Scan products, catch actives that clash, and tick off each step. Private by design.">
+<meta property="og:title" content="Moon Layer: Skincare Routine">
+<meta property="og:description" content="Your skincare, one layer at a time. Morning and night routines for iPhone and iPad.">
+<meta property="og:image" content="https://satrajstudios.github.io/moonlayer/img/shot-1.jpg">
 <link rel="icon" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #FBF7F2;
+    --card: #FFFFFF;
     --ink: #2B2433;
     --ink-soft: #625A6C;
-    --muted: #7a746b;
+    --muted: #8A8290;
     --hairline: #E7DED4;
+    --ring: #EFE4D8;
     --accent: #A84B24;
+    --sun: #F0883A;
+    --peach: #FBD9BC;
+    --peach-2: #F6BE93;
+    --moon: #F7D7AE;
+    --night: #2A2563;
+    --night-2: #1A1744;
+    --serif: "Instrument Serif", "New York", ui-serif, Georgia, serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --paper: #13121C;
+      --card: #1C1A29;
       --ink: #F3EEF7;
       --ink-soft: #B9B1C4;
-      --muted: #8f887d;
-      --hairline: #34324A;
+      --muted: #8F889A;
+      --hairline: #2E2B42;
+      --ring: #1F1D2E;
       --accent: #F2A97E;
     }
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -webkit-text-size-adjust: 100%;
-  }
-  main { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
-  .eyebrow {
-    font: 12px/1 ui-monospace, "SF Mono", Menlo, monospace;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 12px;
-  }
-  h1 {
-    font: 400 40px/1.1 "New York", ui-serif, Georgia, "Times New Roman", serif;
-    margin: 0 0 8px;
-  }
-  .updated { color: var(--muted); margin: 0 0 32px; font-size: 15px; }
-  .summary {
-    border-top: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
-    padding: 20px 0;
-    margin: 0 0 32px;
-    font-size: 19px;
-  }
-  h2 {
-    font: 400 24px/1.25 "New York", ui-serif, Georgia, "Times New Roman", serif;
-    margin: 36px 0 8px;
-  }
-  p, li { color: var(--ink-soft); }
-  ul { padding-left: 20px; }
-  li { margin: 6px 0; }
-  strong { color: var(--ink); font-weight: 600; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--sans); }
   a { color: var(--accent); }
-  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+  /* Soft rings, like the layers of a moon halo. */
+  .texture {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-radial-gradient(circle at 78% 38%, transparent 0 22px, var(--ring) 22px 23.5px);
+    -webkit-mask-image: radial-gradient(ellipse at 78% 38%, rgba(0,0,0,.95), rgba(0,0,0,0) 62%);
+            mask-image: radial-gradient(ellipse at 78% 38%, rgba(0,0,0,.95), rgba(0,0,0,0) 62%);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font: 500 12px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--accent);
+  }
+  .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 8px rgba(240,136,58,.55); }
+  .eyebrow i + i { margin-left: -5px; background: var(--night); box-shadow: 0 0 8px rgba(42,37,99,.45); }
+  @media (prefers-color-scheme: dark) { .eyebrow i + i { background: var(--moon); box-shadow: 0 0 8px rgba(247,215,174,.5); } }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; margin: 0; }
+  em { font-style: italic; color: var(--accent); }
+
+  /* Header */
+  header { position: relative; z-index: 2; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font: 400 26px/1 var(--serif); }
+  .brand img { width: 34px; height: 34px; border-radius: 8px; }
+  nav a { color: var(--ink-soft); text-decoration: none; font: 400 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin-left: 22px; }
+  nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; padding-top: 40px; padding-bottom: 72px; }
+  .hero h1 { font-size: clamp(50px, 6.8vw, 90px); line-height: .95; margin-top: 22px; }
+  .lede { font-size: 19px; color: var(--ink-soft); max-width: 30em; margin: 24px 0 32px; }
+  .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 14px;
+    background: var(--ink); color: var(--paper); text-decoration: none; font: 500 15px/1.2 var(--sans);
+  }
+  .badge svg { width: 22px; height: 22px; fill: currentColor; }
+  .badge small { display: block; font-size: 11px; opacity: .7; font-weight: 400; }
+  .note { font: 400 13px/1.4 var(--mono); color: var(--muted); }
+  .phones { position: relative; height: 640px; }
+  .phone {
+    position: absolute; width: 270px; border-radius: 34px; overflow: hidden;
+    box-shadow: 0 30px 60px rgba(42,37,99,.24), 0 6px 14px rgba(42,37,99,.12);
+  }
+  .phone.one { left: 6%; top: 10px; transform: rotate(-4deg); z-index: 2; }
+  .phone.two { right: 4%; top: 70px; transform: rotate(5deg); }
+  .glow { position: absolute; border-radius: 50%; filter: blur(30px); pointer-events: none; }
+  .glow.sun { width: 520px; height: 520px; right: 80px; top: -60px; background: radial-gradient(circle, rgba(240,136,58,.20), rgba(240,136,58,0) 70%); }
+  .glow.moon { width: 560px; height: 560px; right: -160px; top: 160px; background: radial-gradient(circle, rgba(42,37,99,.16), rgba(42,37,99,0) 70%); }
+  @media (prefers-color-scheme: dark) { .glow.moon { background: radial-gradient(circle, rgba(120,110,230,.20), rgba(120,110,230,0) 70%); } }
+
+  /* Morning / night strip */
+  .strip { display: grid; grid-template-columns: 1fr 1fr; }
+  .half { position: relative; overflow: hidden; padding: 44px 40px; }
+  .half.am { background: linear-gradient(135deg, var(--peach), var(--peach-2)); color: #3A2418; padding-left: max(16px, calc((100vw - 1120px) / 2 + 16px)); }
+  .half.pm { background: linear-gradient(135deg, var(--night), var(--night-2)); color: #F3EEF7; padding-right: max(16px, calc((100vw - 1120px) / 2 + 16px)); }
+  .half .orb { position: absolute; right: 28px; top: 28px; width: 64px; height: 64px; border-radius: 50%; }
+  .half.pm .orb { right: max(28px, calc((100vw - 1120px) / 2 + 16px)); }
+  .half.am .orb { background: radial-gradient(circle at 40% 40%, #FFB36B, #F0883A); box-shadow: 0 0 40px rgba(240,136,58,.55); }
+  .half.pm .orb { background: radial-gradient(circle at 72% 32%, transparent 0 21px, var(--moon) 22px); box-shadow: 0 0 40px rgba(247,215,174,.22); }
+  .half .label { font: 500 12px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; opacity: .75; }
+  .half h2 { font-size: clamp(30px, 3.4vw, 42px); line-height: 1.05; margin: 12px 0 20px; }
+  .half.am h2 em { color: #9A3E17; }
+  .half.pm h2 em { color: var(--moon); }
+  .steps { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; counter-reset: s; }
+  .steps li { counter-increment: s; font: 500 13px/1 var(--sans); padding: 7px 13px 7px 7px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; }
+  .steps li::before { content: counter(s); font: 500 11px/1 var(--mono); width: 20px; height: 20px; border-radius: 50%; display: inline-grid; place-items: center; }
+  .am .steps li { background: rgba(255,255,255,.55); }
+  .am .steps li::before { background: #3A2418; color: var(--peach); }
+  .pm .steps li { background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+  .pm .steps li::before { background: var(--moon); color: var(--night-2); }
+
+  /* Features */
+  section { padding: 88px 0; }
+  .section-head { max-width: 640px; margin-bottom: 44px; }
+  .section-head h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin-top: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: var(--card); border: 1px solid var(--hairline); border-radius: 22px; padding: 26px; }
+  .card h3 { font-size: 26px; line-height: 1.1; margin: 14px 0 8px; }
+  .card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+  .card .k { font: 500 11px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+
+  /* Gallery */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .gallery img { border-radius: 22px; box-shadow: 0 14px 30px rgba(42,37,99,.12); }
+
+  /* iPad */
+  .ipad .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: center; }
+  .ipad h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin: 18px 0 18px; }
+  .ipad p { color: var(--ink-soft); margin: 0 0 14px; }
+  .tablet { border-radius: 30px; overflow: hidden; border: 10px solid #1B1A22; box-shadow: 0 30px 60px rgba(42,37,99,.2); }
+
+  /* Privacy */
+  .privacy { border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .privacy .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .privacy h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin-top: 18px; }
+  .privacy ul { list-style: none; padding: 0; margin: 0; }
+  .privacy li { padding: 14px 0; border-bottom: 1px solid var(--hairline); color: var(--ink-soft); }
+  .privacy li:last-child { border-bottom: 0; }
+  .privacy li b { color: var(--ink); font-weight: 600; }
+
+  footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  footer a { color: var(--ink-soft); text-decoration: none; margin-left: 18px; }
+  footer a:first-child { margin-left: 0; }
+
+  @media (max-width: 900px) {
+    .hero .wrap, .privacy .wrap, .ipad .wrap { grid-template-columns: 1fr; }
+    .phones { height: 520px; }
+    .phone { width: 220px; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .strip { grid-template-columns: 1fr; }
+    .half.am, .half.pm { padding: 40px 16px; }
+    .half.pm .orb { right: 28px; }
+  }
+  @media (max-width: 560px) {
+    nav a:not(:last-child) { display: none; }
+    .phones { height: 430px; }
+    .phone { width: 180px; border-radius: 24px; }
+    .grid { grid-template-columns: 1fr; }
+    section { padding: 64px 0; }
+    .half .orb, .half.pm .orb { width: 48px; height: 48px; right: 16px; top: 24px; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <img src="img/icon.png" alt="" width="96" height="96" style="border-radius:22px;margin-bottom:20px">
-  <p class="eyebrow">Skincare routine</p>
-  <h1>Moon Layer</h1>
-  <p class="updated">Your skincare, one layer at a time.</p>
-  <p class="summary">Your morning and night routine, in the right order. Scan products, catch actives that clash, and tick off each step. No account, and everything stays on your device. Coming soon to the App Store for iPhone and iPad.</p>
-  <div style="display:flex;gap:16px;margin:0 0 32px">
-    <img src="img/shot-1.jpg" alt="Moon Layer's night routine" style="width:48%;border-radius:24px;border:1px solid var(--hairline)">
-    <img src="img/shot-2.jpg" alt="Moon Layer's routine with ingredient clash badges" style="width:48%;border-radius:24px;border:1px solid var(--hairline)">
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="img/icon.png" alt="">Moon Layer</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#privacy">Privacy</a>
+      <a href="support/">Support</a>
+    </nav>
   </div>
-  <h2>What it does</h2>
-  <ul>
-    <li><strong>Morning and night, in order.</strong> See exactly what to put on now, and tick each step off.</li>
-    <li><strong>Every step on its own schedule.</strong> Daily, chosen weekdays, monthly, or just once.</li>
-    <li><strong>Spot actives that clash.</strong> Retinoids with acids, vitamin C with benzoyl peroxide, and more.</li>
-    <li><strong>Scan it, see what's inside.</strong> Barcode lookups with a simple ingredient score.</li>
-    <li><strong>History and reminders.</strong> See what you did, and get a nudge that lists tonight's products.</li>
-  </ul>
-  <footer>Moon Layer is made by Satraj Studios · <a href="privacy/">Privacy Policy</a> · <a href="support/">Support</a></footer>
-</main>
+</header>
+
+<div class="hero">
+  <div class="texture"></div>
+  <div class="glow sun"></div>
+  <div class="glow moon"></div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i><i></i>Skincare routine</span>
+      <h1>Your skincare,<br><em>one layer<br>at a time.</em></h1>
+      <p class="lede">Your morning and night routine, in the right order. Scan your products, catch actives that clash, and tick off each step as you go, on iPhone and iPad.</p>
+      <div class="cta">
+        <span class="badge" aria-label="Coming soon to the App Store">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.17-1.54 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.24 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.41 1.2-2.47-.03-.01-2.27-.87-2.3-3.45zM14.2 6.12c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg>
+          <span><small>Coming soon to the</small>App Store</span>
+        </span>
+        <span class="note">Free · iPhone &amp; iPad · No account</span>
+      </div>
+    </div>
+    <div class="phones" aria-hidden="true">
+      <img class="phone one" src="img/shot-1.jpg" alt="">
+      <img class="phone two" src="img/shot-2.jpg" alt="">
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="half am">
+    <span class="orb" aria-hidden="true"></span>
+    <span class="label">Morning</span>
+    <h2>Fresh start,<br><em>sunscreen last.</em></h2>
+    <ol class="steps">
+      <li>Cleanser</li><li>Toner</li><li>Vitamin C</li><li>Moisturizer</li><li>SPF 50</li>
+    </ol>
+  </div>
+  <div class="half pm">
+    <span class="orb" aria-hidden="true"></span>
+    <span class="label">Night</span>
+    <h2>Wind down,<br><em>layer by layer.</em></h2>
+    <ol class="steps">
+      <li>Cleansing balm</li><li>Gel cleanser</li><li>AHA serum</li><li>Peptides</li><li>Eye cream</li><li>Night cream</li>
+    </ol>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i></i><i></i>What it does</span>
+      <h2>The right step,<br><em>at the right time.</em></h2>
+    </div>
+    <div class="grid">
+      <div class="card"><span class="k">Now</span><h3>Morning and night, in order</h3><p>Open the app and see exactly what goes on next, from cleanser to sunscreen. Tick each step off as you go.</p></div>
+      <div class="card"><span class="k">Schedules</span><h3>Every step on its own rhythm</h3><p>Daily, on chosen weekdays, monthly or just once. An exfoliant on Tuesdays and Saturdays, a peel on the first Sunday of the month.</p></div>
+      <div class="card"><span class="k">Clashes</span><h3>Spot actives that clash</h3><p>Moon Layer checks the year ahead and flags pairs that are better kept apart, like a retinoid with an exfoliating acid, or a morning with no sunscreen.</p></div>
+      <div class="card"><span class="k">Scan</span><h3>Scan it, see what's inside</h3><p>Scan a barcode or search by name, or photograph the ingredient list and Moon Layer reads it on your device. A simple score sums up the ingredients.</p></div>
+      <div class="card"><span class="k">History</span><h3>See what you did</h3><p>Every tick is kept, day by day, so you can look back over a week and see what you actually used, and when.</p></div>
+      <div class="card"><span class="k">Reminders</span><h3>A nudge at bedtime</h3><p>Morning and night reminders that list tonight's products, scheduled right on your device.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="gallery">
+      <img src="img/shot-2.jpg" alt="Moon Layer's morning routine, with the sun card and today's steps" loading="lazy">
+      <img src="img/shot-3.jpg" alt="Your routine, with morning and night steps in order and clash badges" loading="lazy">
+      <img src="img/shot-4.jpg" alt="A scanned cleanser with its photos and an ingredient score of 100" loading="lazy">
+      <img src="img/shot-5.jpg" alt="History, showing each day's morning and night steps ticked off" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="ipad" style="padding-top:0">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i><i></i>On iPad</span>
+      <h2>Tonight, and the<br><em>week at a glance.</em></h2>
+      <p>On iPad, tonight's steps sit beside a week-at-a-glance grid of every product, and the monthly and one-off steps coming up next.</p>
+      <p>Getting a new phone? Export a backup to Files or iCloud Drive and restore it there. Your routine, history and photos come with it.</p>
+    </div>
+    <img class="tablet" src="img/ipad.jpg" alt="Moon Layer on iPad, with tonight's steps beside the week at a glance" loading="lazy">
+  </div>
+</section>
+
+<section id="privacy" class="privacy">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i><i></i>Private by design</span>
+      <h2>Your routine<br><em>stays on your shelf.</em></h2>
+    </div>
+    <ul>
+      <li><b>No accounts, no ads, no tracking.</b> There's nothing to sign up for.</li>
+      <li><b>On your device.</b> Your routine, photos and history are saved on your iPhone or iPad. Backups go only where you choose to save them.</li>
+      <li><b>Lookups send only the product.</b> A scan sends just the barcode, or the words you searched, to public product databases. Read the <a href="privacy/">privacy policy</a>.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Satraj Studios · Ingredient checks are general guidance, not medical advice.</span>
+    <span><a href="support/">Support</a><a href="privacy/">Privacy Policy</a><a href="mailto:satrajstudios@gmail.com">Contact</a></span>
+  </div>
+</footer>
+
 </body>
 </html>

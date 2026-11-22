@@ -83,6 +83,8 @@
   }
   .badge svg { width: 22px; height: 22px; fill: currentColor; }
   .badge small { display: block; font-size: 11px; opacity: .7; font-weight: 400; }
+  .badge.alt { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--hairline); }
+  .badge:hover { opacity: .88; }
   .note { font: 400 13px/1.4 var(--mono); color: var(--muted); }
   .phones { position: relative; height: 640px; }
   .phone {
@@ -115,6 +117,15 @@
   .card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
   .card .k { font: 500 11px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
 
+  /* Beta */
+  .grid.two { grid-template-columns: repeat(2, 1fr); }
+  .card p + p { margin-top: 14px; }
+  .card b { color: var(--ink); font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .button { display: inline-block; padding: 11px 18px; border-radius: 12px; background: var(--ink); color: var(--paper); text-decoration: none; font: 500 15px/1.2 var(--sans); }
+  .button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--hairline); }
+  .button:hover { opacity: .88; }
+
   /* Gallery */
   .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
   .gallery img { border-radius: 22px; box-shadow: 0 14px 30px rgba(17,17,17,.12); }
@@ -145,7 +156,7 @@
     nav a:not(:last-child) { display: none; }
     .phones { height: 430px; }
     .phone { width: 180px; border-radius: 24px; }
-    .grid { grid-template-columns: 1fr; }
+    .grid, .grid.two { grid-template-columns: 1fr; }
     section { padding: 64px 0; }
   }
 </style>
@@ -157,6 +168,7 @@
     <a class="brand" href="./"><img src="img/icon.png" alt="">Til</a>
     <nav>
       <a href="#features">Features</a>
+      <a href="#beta">Beta</a>
       <a href="#privacy">Privacy</a>
       <a href="support/">Support</a>
     </nav>
@@ -172,13 +184,20 @@
       <h1>Days until<br><em>what matters.</em></h1>
       <p class="lede">Birthdays, trips, launches, anniversaries. Pick what you're waiting for and Til counts down to it, on your iPhone, iPad, iPhone Duo, Apple Watch and Android phone.</p>
       <div class="cta">
-        <span class="badge" aria-label="Coming soon to the App Store">
+        <a class="badge" href="https://apps.apple.com/us/app/til-event-countdown/id6822899662">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.17-1.54 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.24 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.41 1.2-2.47-.03-.01-2.27-.87-2.3-3.45zM14.2 6.12c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg>
-          <span><small>Coming soon to the</small>App Store</span>
-        </span>
-        <span class="note">Free · iPhone, iPad &amp; Apple Watch · Android coming soon</span>
+          <span><small>Download on the</small>App Store</span>
+        </a>
+        <a class="badge alt" href="#beta-ios">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.17-1.54 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.24 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.41 1.2-2.47-.03-.01-2.27-.87-2.3-3.45zM14.2 6.12c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg>
+          <span><small>Join the beta on</small>TestFlight</span>
+        </a>
+        <a class="badge alt" href="#beta-android">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.2c-.3.3-.4.7-.4 1.2v17.2c0 .5.1.9.4 1.2l9.5-9.8L3.6 2.2zm10.6 10.9 2.7 2.8-11.8 6.8c-.3.2-.7.2-1 .1l10.1-9.7zm0-2.2L4.1 1.2c.3-.1.7-.1 1 .1l11.8 6.8-2.7 2.8zm3.9-1.8 3 1.7c.9.5.9 1.9 0 2.4l-3 1.7-3-3 3-2.8z"/></svg>
+          <span><small>Join the beta on</small>Google Play</span>
+        </a>
       </div>
-      <p class="note" style="margin:20px 0 0;max-width:34em">Til for Android is coming soon to Google Play. Want to try it early? <a href="mailto:satrajstudios@gmail.com?subject=Til%20Android%20beta">Email us</a> the Gmail address you use on your Android phone and we'll add you to the test.</p>
+      <p class="note" style="margin-top:16px">Free · iPhone, iPad &amp; Apple Watch on the App Store · Android in beta</p>
     </div>
     <div class="phones" aria-hidden="true">
       <img class="phone one" src="img/shot-1.jpg" alt="">
@@ -224,6 +243,36 @@
       <img src="img/shot-4.jpg" alt="Til in the dark theme" loading="lazy">
     </div>
     <img class="duo" src="img/duo.jpg" alt="Til on a half-open iPhone Duo, with the list and a countdown side by side" loading="lazy">
+  </div>
+</section>
+
+<section id="beta" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i></i><i></i>Join the beta</span>
+      <h2>See what's next,<br><em>before it ships.</em></h2>
+    </div>
+    <div class="grid two">
+      <div class="card" id="beta-ios">
+        <span class="k">iPhone, iPad &amp; Apple Watch</span>
+        <h3>TestFlight</h3>
+        <p>Try new versions of Til before they reach the App Store. Install Apple's free TestFlight app, ask us for an invite, then open the invite email on your iPhone and tap <b>View in TestFlight</b>.</p>
+        <p class="actions">
+          <a class="button" href="https://apps.apple.com/app/testflight/id899247664">Get TestFlight</a>
+          <a class="button ghost" href="mailto:satrajstudios@gmail.com?subject=Til%20beta%20(iPhone)">Ask for an invite</a>
+        </p>
+      </div>
+      <div class="card" id="beta-android">
+        <span class="k">Android</span>
+        <h3>Google Play testing</h3>
+        <p>Til for Android is in testing on Google Play. Email us the Gmail address you use on your Android phone and we'll add you. Then open the link below while signed in with that account, tap <b>Become a tester</b>, and install Til from Google Play.</p>
+        <p class="actions">
+          <a class="button" href="https://play.google.com/apps/internaltest/4700862665168818613">Join on Google Play</a>
+          <a class="button ghost" href="mailto:satrajstudios@gmail.com?subject=Til%20beta%20(Android)">Ask for an invite</a>
+        </p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:20px">Beta builds can have rough edges. Tell us what you find from TestFlight, or email <a href="mailto:satrajstudios@gmail.com">satrajstudios@gmail.com</a>.</p>
   </div>
 </section>
 

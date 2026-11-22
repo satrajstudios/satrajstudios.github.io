@@ -5,96 +5,377 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DuoWeather: Weather in °F and °C</title>
 <meta name="description" content="Every temperature in Fahrenheit and Celsius at once, with forecasts, alerts, moon phases, widgets and an Apple Watch app.">
+<meta property="og:title" content="DuoWeather: Weather in °F and °C">
+<meta property="og:description" content="Fahrenheit and Celsius, side by side. Weather for iPhone, iPad and Apple Watch.">
+<meta property="og:image" content="https://satrajstudios.github.io/duoweather/img/shot-1.jpg">
 <link rel="icon" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #F3F6FB;
+    --card: #FFFFFF;
     --ink: #141B41;
     --ink-soft: #4A5272;
-    --muted: #666E8C;
+    --muted: #6E7694;
     --hairline: #DBE1EE;
+    --dot: #DCE3F0;
     --accent: #9A5208;
+    --f: #B76A0E;
+    --c: #0B7A8C;
+    --amber: #FFBD61;
+    --cyan: #78E3F5;
+    --night: #111842;
+    --night-2: #0A0F2E;
+    --serif: "Instrument Serif", "New York", ui-serif, Georgia, serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #0E1330;
+      --paper: #0B1030;
+      --card: #141B41;
       --ink: #F1F4FF;
       --ink-soft: #B6BEDA;
       --muted: #8D96B5;
-      --hairline: #2A3257;
+      --hairline: #252E57;
+      --dot: #182051;
       --accent: #FFBD61;
+      --f: #FFBD61;
+      --c: #78E3F5;
     }
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -webkit-text-size-adjust: 100%;
-  }
-  main { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
-  .eyebrow {
-    font: 12px/1 ui-monospace, "SF Mono", Menlo, monospace;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 12px;
-  }
-  h1 {
-    font: 400 40px/1.1 "New York", ui-serif, Georgia, "Times New Roman", serif;
-    margin: 0 0 8px;
-  }
-  .updated { color: var(--muted); margin: 0 0 32px; font-size: 15px; }
-  .summary {
-    border-top: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
-    padding: 20px 0;
-    margin: 0 0 32px;
-    font-size: 19px;
-  }
-  h2 {
-    font: 400 24px/1.25 "New York", ui-serif, Georgia, "Times New Roman", serif;
-    margin: 36px 0 8px;
-  }
-  p, li { color: var(--ink-soft); }
-  ul { padding-left: 20px; }
-  li { margin: 6px 0; }
-  strong { color: var(--ink); font-weight: 600; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--sans); }
   a { color: var(--accent); }
-  img { max-width: 100%; height: auto; display: block; }
-  .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 16px; }
-  .shots img, .wide { border-radius: 18px; border: 1px solid var(--hairline); }
-  .wide { margin: 0 0 32px; }
-  footer { margin-top: 48px; color: var(--muted); font-size: 14px; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+  /* Ruler ticks, echoing the app's slide-to-convert scale. */
+  .texture {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--dot) 1.5px, transparent 1.5px),
+      linear-gradient(to right, var(--dot) 1px, transparent 1px);
+    background-size: 70px 26px, 14px 12px;
+    background-repeat: repeat-x;
+    background-position: 0 0, 0 0;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,0) 70%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,0) 70%);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font: 500 12px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--accent);
+  }
+  .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px rgba(255,189,97,.7); }
+  .eyebrow i + i { margin-left: -5px; background: var(--cyan); box-shadow: 0 0 8px rgba(120,227,245,.7); }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; margin: 0; }
+  em { font-style: italic; color: var(--accent); }
+  .duo-text {
+    background: linear-gradient(90deg, var(--f), var(--c));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    padding-right: .08em;
+  }
+  .f { color: var(--f); }
+  .c { color: var(--c); }
+
+  /* Header */
+  header { position: relative; z-index: 2; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font: 400 26px/1 var(--serif); }
+  .brand img { width: 34px; height: 34px; border-radius: 8px; }
+  nav a { color: var(--ink-soft); text-decoration: none; font: 400 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin-left: 22px; }
+  nav a:hover { color: var(--accent); }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; padding-top: 40px; padding-bottom: 72px; }
+  .hero h1 { font-size: clamp(52px, 7.4vw, 96px); line-height: .95; margin-top: 22px; }
+  .lede { font-size: 19px; color: var(--ink-soft); max-width: 30em; margin: 24px 0 32px; }
+  .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 14px;
+    background: var(--ink); color: var(--paper); text-decoration: none; font: 500 15px/1.2 var(--sans);
+  }
+  .badge svg { width: 22px; height: 22px; fill: currentColor; }
+  .badge small { display: block; font-size: 11px; opacity: .7; font-weight: 400; }
+  .badge:hover { opacity: .88; }
+  .note { font: 400 13px/1.4 var(--mono); color: var(--muted); }
+  .phones { position: relative; height: 640px; }
+  .phone {
+    position: absolute; width: 270px; border-radius: 34px; overflow: hidden;
+    box-shadow: 0 30px 60px rgba(17,24,66,.30), 0 6px 14px rgba(17,24,66,.14);
+  }
+  .phone.one { left: 6%; top: 10px; transform: rotate(-4deg); z-index: 2; }
+  .phone.two { right: 4%; top: 70px; transform: rotate(5deg); }
+  .glow { position: absolute; border-radius: 50%; filter: blur(30px); pointer-events: none; }
+  .glow.warm { width: 520px; height: 520px; right: 140px; top: -80px; background: radial-gradient(circle, rgba(255,189,97,.24), rgba(255,189,97,0) 70%); }
+  .glow.cool { width: 560px; height: 560px; right: -160px; top: 140px; background: radial-gradient(circle, rgba(120,227,245,.24), rgba(120,227,245,0) 70%); }
+
+  /* Converter strip */
+  .strip { background: radial-gradient(120% 140% at 80% 0%, #1D2766, var(--night) 55%, var(--night-2)); color: #F1F4FF; }
+  .strip .wrap { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 40px; padding: 48px 16px; }
+  .strip h2 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.05; }
+  .strip h2 em { color: var(--cyan); }
+  .strip p { color: #B6BEDA; margin: 14px 0 0; font-size: 16px; }
+  .readout { display: flex; align-items: baseline; justify-content: center; gap: 18px; font: 500 clamp(40px, 5.4vw, 64px)/1 var(--mono); letter-spacing: -.01em; }
+  .readout .eq { color: #5E679A; font-size: .6em; }
+  .readout b { font-weight: 500; }
+  .readout .rf { color: var(--amber); }
+  .readout .rc { color: var(--cyan); }
+  .ruler { position: relative; margin-top: 22px; }
+  .ticks { height: 34px; border-radius: 10px;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.55) 1.5px, transparent 1.5px),
+      linear-gradient(to right, rgba(255,255,255,.22) 1px, transparent 1px);
+    background-size: 10% 22px, 2% 12px; background-repeat: repeat-x; background-position: 0 0, 0 0;
+  }
+  .ruler input { position: absolute; inset: -6px 0 0; width: 100%; height: 46px; margin: 0; background: transparent; -webkit-appearance: none; appearance: none; cursor: ew-resize; }
+  .ruler input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 8px; }
+  .ruler input::-webkit-slider-runnable-track { height: 46px; background: transparent; }
+  .ruler input::-moz-range-track { height: 46px; background: transparent; }
+  .ruler input::-webkit-slider-thumb { -webkit-appearance: none; width: 4px; height: 46px; border-radius: 2px; background: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.15), 0 0 16px rgba(120,227,245,.8); }
+  .ruler input::-moz-range-thumb { width: 4px; height: 46px; border: 0; border-radius: 2px; background: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.15), 0 0 16px rgba(120,227,245,.8); }
+  .scale-labels { display: flex; justify-content: space-between; margin-top: 10px; font: 400 11px/1 var(--mono); letter-spacing: .12em; color: #8D96B5; }
+  .tip { text-align: center; margin-top: 16px; font: 400 13px/1.4 var(--mono); color: #B6BEDA; }
+  .tip b { color: var(--amber); font-weight: 500; }
+
+  /* Features */
+  section { padding: 88px 0; }
+  .section-head { max-width: 640px; margin-bottom: 44px; }
+  .section-head h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin-top: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: var(--card); border: 1px solid var(--hairline); border-radius: 22px; padding: 26px; }
+  .card h3 { font-size: 26px; line-height: 1.1; margin: 14px 0 8px; }
+  .card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+  .card .k { font: 500 11px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+
+  /* Gallery */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .gallery img { border-radius: 22px; box-shadow: 0 14px 30px rgba(17,24,66,.16); }
+
+  /* Bigger screens + wrist */
+  .screens { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-top: 18px; }
+  .duo { border-radius: 22px; overflow: hidden; box-shadow: 0 14px 30px rgba(17,24,66,.16); }
+  .wrist { border-radius: 22px; background: radial-gradient(120% 100% at 50% 0%, #1D2766, var(--night) 60%, var(--night-2)); color: #F1F4FF; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+  .wrist .k { font: 500 11px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); }
+  .wrist h3 { font-size: 26px; line-height: 1.1; margin: 14px 0 8px; }
+  .wrist p { margin: 0; color: #B6BEDA; font-size: 15px; }
+  .watch { align-self: center; width: 62%; max-width: 200px; border-radius: 34px; border: 8px solid #2A2D38; box-shadow: 0 0 0 2px #3A3E4C, 0 10px 22px rgba(0,0,0,.4); }
+
+  /* Beta */
+  .grid.two { grid-template-columns: repeat(2, 1fr); }
+  .card p + p { margin-top: 14px; }
+  .card b { color: var(--ink); font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .button { display: inline-block; padding: 11px 18px; border-radius: 12px; background: var(--ink); color: var(--paper); text-decoration: none; font: 500 15px/1.2 var(--sans); }
+  .button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--hairline); }
+  .button:hover { opacity: .88; }
+
+  /* Privacy */
+  .privacy { border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .privacy .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .privacy h2 { font-size: clamp(36px, 4.4vw, 56px); line-height: 1; margin-top: 18px; }
+  .privacy ul { list-style: none; padding: 0; margin: 0; }
+  .privacy li { padding: 14px 0; border-bottom: 1px solid var(--hairline); color: var(--ink-soft); }
+  .privacy li:last-child { border-bottom: 0; }
+  .privacy li b { color: var(--ink); font-weight: 600; }
+
+  footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  footer a { color: var(--ink-soft); text-decoration: none; margin-left: 18px; }
+  footer a:first-child { margin-left: 0; }
+
+  @media (max-width: 900px) {
+    .hero .wrap, .privacy .wrap, .strip .wrap { grid-template-columns: 1fr; }
+    .phones { height: 520px; }
+    .phone { width: 220px; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .screens { grid-template-columns: 1fr; }
+    .wrist { flex-direction: row; align-items: center; }
+    .watch { width: 150px; flex: none; }
+  }
+  @media (max-width: 560px) {
+    nav a:not(:last-child) { display: none; }
+    .phones { height: 430px; }
+    .phone { width: 180px; border-radius: 24px; }
+    .grid, .grid.two { grid-template-columns: 1fr; }
+    section { padding: 64px 0; }
+    .wrist { flex-direction: column; align-items: stretch; }
+    .watch { width: 60%; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <img src="img/icon.png" alt="" width="96" height="96" style="border-radius:22px;margin-bottom:20px">
-  <p class="eyebrow">Weather in two scales</p>
-  <h1>DuoWeather</h1>
-  <p class="updated">Fahrenheit and Celsius, side by side.</p>
-  <p class="summary">Every temperature in °F and °C at once, so you never have to convert in your head. Hourly and 10-day forecasts, weather alerts, moon phases, widgets and an Apple Watch app. Coming soon to the App Store for iPhone, iPad and Apple Watch.</p>
-  <div class="shots">
-    <img src="img/shot-1.jpg" alt="DuoWeather showing Tokyo at 63°F and 17°C on the dual arc gauge" width="640" height="1391">
-    <img src="img/shot-2.jpg" alt="The Sun and moon screen, with a drawn moon phase and date for each day" width="640" height="1391">
-    <img src="img/shot-3.jpg" alt="The city list comparing four cities on one temperature scale" width="640" height="1391">
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="img/icon.png" alt="">DuoWeather</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#beta">Beta</a>
+      <a href="#privacy">Privacy</a>
+      <a href="support/">Support</a>
+    </nav>
   </div>
-  <h2>What it does</h2>
-  <ul>
-    <li><strong>Both scales, everywhere.</strong> The gauge, forecasts and widgets all show °F and °C together. Choose which comes first.</li>
-    <li><strong>Forecasts you can read fast.</strong> Next-hour rain, the next 24 hours and a 10-day outlook.</li>
-    <li><strong>Slide to convert.</strong> A built-in ruler and quick maths help you learn the other scale.</li>
-    <li><strong>Compare your cities.</strong> Every city sits on one shared temperature scale, and your list follows you through iCloud.</li>
-    <li><strong>Sun and moon.</strong> Sunrise, sunset, daylight and a moon drawn to match each day's phase.</li>
-    <li><strong>Weather alerts.</strong> Severe weather warnings where they're available.</li>
-    <li><strong>Widgets and Apple Watch.</strong> Home Screen and Lock Screen widgets, a Watch app and complications.</li>
-  </ul>
-  <h2>Made for bigger screens</h2>
-  <p>On iPhone Duo and iPad, DuoWeather opens up into a city list beside a full forecast.</p>
-  <img class="wide" src="img/duo.jpg" alt="DuoWeather unfolded on iPhone Duo, with the city list beside the San Diego forecast" width="1280" height="900">
-  <footer>DuoWeather is made by Satraj Studios · <a href="privacy/">Privacy Policy</a> · <a href="support/">Support</a></footer>
-</main>
+</header>
+
+<div class="hero">
+  <div class="texture"></div>
+  <div class="glow warm"></div>
+  <div class="glow cool"></div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i><i></i>Weather in two scales</span>
+      <h1>Every degree,<br><em class="duo-text">in both scales.</em></h1>
+      <p class="lede">Every temperature in <b class="f">Fahrenheit</b> and <b class="c">Celsius</b> at once, so you never have to convert in your head. Forecasts, alerts, moon phases, widgets and an Apple Watch app, for iPhone, iPad and Apple Watch.</p>
+      <div class="cta">
+        <a class="badge" href="#beta-ios">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.17-1.54 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.24 2.73 2.2 1.1-.04 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.41 1.2-2.47-.03-.01-2.27-.87-2.3-3.45zM14.2 6.12c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22z"/></svg>
+          <span><small>Join the beta on</small>TestFlight</span>
+        </a>
+        <a class="badge" href="#beta-android">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 2.2c-.3.3-.4.7-.4 1.2v17.2c0 .5.1.9.4 1.2l9.5-9.8L3.6 2.2zm10.6 10.9 2.7 2.8-11.8 6.8c-.3.2-.7.2-1 .1l10.1-9.7zm0-2.2L4.1 1.2c.3-.1.7-.1 1 .1l11.8 6.8-2.7 2.8zm3.9-1.8 3 1.7c.9.5.9 1.9 0 2.4l-3 1.7-3-3 3-2.8z"/></svg>
+          <span><small>Join the beta on</small>Google Play</span>
+        </a>
+      </div>
+      <p class="note" style="margin-top:16px">Free · Coming soon to the App Store for iPhone, iPad &amp; Apple Watch</p>
+    </div>
+    <div class="phones" aria-hidden="true">
+      <img class="phone one" src="img/shot-1.jpg" alt="">
+      <img class="phone two" src="img/shot-2.jpg" alt="">
+    </div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap">
+    <div>
+      <h2>Slide to convert,<br><em>learn as you go.</em></h2>
+      <p>The same ruler is built into the app. Drag it here to feel how the two scales line up.</p>
+    </div>
+    <div>
+      <div class="readout" aria-live="polite"><b class="rf" id="rf">52°F</b><span class="eq">=</span><b class="rc" id="rc">11.1°C</b></div>
+      <div class="ruler">
+        <div class="ticks"></div>
+        <input type="range" id="temp" min="-4" max="104" step="1" value="52" aria-label="Temperature in Fahrenheit">
+      </div>
+      <div class="scale-labels"><span>-4°F · -20°C</span><span>50°F · 10°C</span><span>104°F · 40°C</span></div>
+      <p class="tip" id="tip">Quick maths: double the °C and add 30. <b>11 × 2 + 30 ≈ 52°F</b></p>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i></i><i></i>What it does</span>
+      <h2>Forecasts for travelers,<br><em>and anyone in between.</em></h2>
+    </div>
+    <div class="grid">
+      <div class="card"><span class="k">Both scales</span><h3>°F and °C, everywhere</h3><p>A dual arc gauge with today's high and low, and every forecast, detail and widget in both scales. Choose which one comes first.</p></div>
+      <div class="card"><span class="k">Forecasts</span><h3>Read it at a glance</h3><p>Next-hour rain, the next 24 hours and a 10-day outlook with highs, lows and chance of rain, plus severe weather alerts where available.</p></div>
+      <div class="card"><span class="k">Learn</span><h3>Get fluent in the other scale</h3><p>Slide the ruler to convert any temperature, see today's low, high and feels-like on one scale, and pick up quick maths to estimate in your head.</p></div>
+      <div class="card"><span class="k">Details</span><h3>Every reading, charted</h3><p>Feels like, UV index, wind, humidity, visibility, pressure, precipitation and cloud cover. Tap any reading for hour-by-hour charts.</p></div>
+      <div class="card"><span class="k">Cities</span><h3>Compare your places</h3><p>Every city sits on one shared temperature scale, so home and away line up at a glance. Your list follows you through iCloud.</p></div>
+      <div class="card"><span class="k">Sun &amp; moon</span><h3>Daylight and moonlight</h3><p>Sunrise, sunset and hours of daylight for each day, and a moon drawn to match its phase, with moonrise and moonset.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="gallery">
+      <img src="img/shot-3.jpg" alt="The next 24 hours and the 10-day outlook, in °F and °C" loading="lazy">
+      <img src="img/shot-4.jpg" alt="Today's low, high and feels-like temperature on one scale, with a quick maths tip" loading="lazy">
+      <img src="img/shot-5.jpg" alt="The city list comparing San Francisco, London, Tokyo and Sydney on one temperature scale" loading="lazy">
+      <img src="img/shot-6.jpg" alt="The Sun and moon screen, with a drawn moon phase for each day" loading="lazy">
+    </div>
+    <div class="screens">
+      <img class="duo" src="img/duo.jpg" alt="DuoWeather unfolded on iPhone Duo, with the city list beside the San Diego forecast" loading="lazy">
+      <div class="wrist">
+        <div>
+          <span class="k">Widgets &amp; Watch</span>
+          <h3>On your wrist,<br>and your Home Screen</h3>
+          <p>An Apple Watch app with complications, Home Screen and Lock Screen widgets, and on iPhone Duo and iPad, your cities beside a full forecast.</p>
+        </div>
+        <img class="watch" src="img/watch.jpg" alt="DuoWeather on Apple Watch, showing 63°F and 17°C" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="beta" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i></i><i></i>Join the beta</span>
+      <h2>Try it before<br><em>everyone else.</em></h2>
+    </div>
+    <div class="grid two">
+      <div class="card" id="beta-ios">
+        <span class="k">iPhone, iPad &amp; Apple Watch</span>
+        <h3>TestFlight</h3>
+        <p>DuoWeather is on its way to the App Store. To try it now and get new versions first, install Apple's free TestFlight app and ask us for an invite. Then open the invite email on your iPhone and tap <b>View in TestFlight</b>.</p>
+        <p class="actions">
+          <a class="button" href="https://apps.apple.com/app/testflight/id899247664">Get TestFlight</a>
+          <a class="button ghost" href="mailto:satrajstudios@gmail.com?subject=DuoWeather%20beta%20(iPhone)">Ask for an invite</a>
+        </p>
+      </div>
+      <div class="card" id="beta-android">
+        <span class="k">Android</span>
+        <h3>Google Play testing</h3>
+        <p>DuoWeather for Android is in the works. Email us the Gmail address you use on your Android phone and we'll invite you to the Google Play test as soon as it opens.</p>
+        <p class="actions">
+          <a class="button" href="mailto:satrajstudios@gmail.com?subject=DuoWeather%20beta%20(Android)">Ask for an invite</a>
+        </p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:20px">Beta builds can have rough edges. Tell us what you find from TestFlight, or email <a href="mailto:satrajstudios@gmail.com">satrajstudios@gmail.com</a>.</p>
+  </div>
+</section>
+
+<section id="privacy" class="privacy">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow"><i></i><i></i>Private by design</span>
+      <h2>Your weather,<br><em>nobody else's.</em></h2>
+    </div>
+    <ul>
+      <li><b>No accounts, no ads, no tracking.</b> There's nothing to sign up for.</li>
+      <li><b>Your location never reaches us.</b> If you allow it, your coordinates go only to Apple's weather and maps services to get the forecast.</li>
+      <li><b>Your cities, in your iCloud.</b> They sync through your own iCloud account, and stay on your devices. Data Not Collected. Read the <a href="privacy/">privacy policy</a>.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Satraj Studios · Weather data from Apple Weather</span>
+    <span><a href="support/">Support</a><a href="privacy/">Privacy Policy</a><a href="mailto:satrajstudios@gmail.com">Contact</a></span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var input = document.getElementById('temp');
+    var rf = document.getElementById('rf'), rc = document.getElementById('rc'), tip = document.getElementById('tip');
+    function update() {
+      var f = Number(input.value);
+      var c = (f - 32) * 5 / 9;
+      var cr = Math.round(c);
+      rf.textContent = f + '°F';
+      rc.textContent = (Math.round(c * 10) / 10).toFixed(1).replace('-0.0', '0.0') + '°C';
+      input.setAttribute('aria-valuetext', f + ' degrees Fahrenheit, ' + cr + ' degrees Celsius');
+      tip.innerHTML = 'Quick maths: double the °C and add 30. <b>' + cr + ' × 2 + 30 ≈ ' + (cr * 2 + 30) + '°F</b>';
+    }
+    input.addEventListener('input', update);
+    update();
+  })();
+</script>
+
 </body>
 </html>
